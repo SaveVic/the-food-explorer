@@ -3,6 +3,7 @@
     <style name="Theme.TheFoodExplorer" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="Q">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/medium</item>
         <item name="colorPrimaryVariant">@color/dark</item>

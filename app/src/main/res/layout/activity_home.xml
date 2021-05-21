@@ -65,13 +65,13 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/poppins_medium"
-                android:textSize="14sp"
                 android:hint="Cari makanan ..."
-                android:textColor="@color/dark"
-                android:textColorHint="@color/medium"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
-                android:imeOptions="actionDone"/>
+                android:textColor="@color/dark"
+                android:textColorHint="@color/medium"
+                android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/camera"

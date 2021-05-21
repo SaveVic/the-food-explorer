@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
         binding.camera.setOnClickListener { onCameraTap() }
         binding.search.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
+                EditorInfo.IME_ACTION_SEARCH -> {
                     onSearchFoodByText()
                     true
                 }
@@ -74,7 +74,7 @@ class HomeActivity : AppCompatActivity() {
         val query = (binding.search.text ?: "").toString()
         if (query.isEmpty()) return
         supportFragmentManager.beginTransaction().apply {
-            replace(binding.placeholder.id, SearchTextFragment.newInstance(query), "search-text")
+            replace(binding.placeholder.id, SearchTextFragment.newInstance("$query "), "search-text")
 //            addToBackStack(null)
             commit()
         }
@@ -119,6 +119,7 @@ class HomeActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
+                    binding.search.text.clear()
                     supportFragmentManager.beginTransaction().apply {
                         replace(
                             binding.placeholder.id,
