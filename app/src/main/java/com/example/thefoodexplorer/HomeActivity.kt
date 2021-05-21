@@ -24,11 +24,12 @@ import java.util.*
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-
-    private val REQUEST_PERMISSION = 100
-    private val REQUEST_IMAGE_CAPTURE = 1
-
     lateinit var currentPhotoPath: String
+
+    companion object{
+        const val REQUEST_PERMISSION = 100
+        const val REQUEST_IMAGE_CAPTURE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +120,7 @@ class HomeActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_CAPTURE -> {
-                    binding.search.text.clear()
+                    binding.search.text?.clear()
                     supportFragmentManager.beginTransaction().apply {
                         replace(
                             binding.placeholder.id,
