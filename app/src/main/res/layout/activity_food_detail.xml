@@ -15,6 +15,7 @@
         android:padding="15dp">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_back" />
@@ -29,16 +30,17 @@
             android:layout_height="wrap_content"
             android:src="@drawable/icon_favorite_off" />
 
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="@color/dark"
         android:layout_margin="30dp"/>
 
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_bold"
@@ -47,6 +49,7 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Khas Jawa"
@@ -60,16 +63,45 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
 
-        <include
+<!--        <include-->
+<!--            android:id="@+id/btn_detail"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            layout="@layout/button_detail"-->
+<!--            android:layout_marginEnd="20dp"/>-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/button_detail"
-            android:layout_marginEnd="20dp"/>
+            android:background="@color/normal_blur"
+            android:text="Detail"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="@color/dark"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginEnd="20dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="8dp"/>
 
-        <include
+<!--        <include-->
+<!--            android:id="@+id/btn_location"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            layout="@layout/button_location"/>-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/button_detail"/>
+            android:background="@color/white"
+            android:textAllCaps="false"
+            android:text="Lokasi"
+            android:textSize="16sp"
+            android:textColor="@color/medium_blur"
+            android:fontFamily="@font/poppins_medium"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="8dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
