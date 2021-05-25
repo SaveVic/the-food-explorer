@@ -1,5 +1,6 @@
 package com.example.thefoodexplorer.data.dummy
 
+import com.example.thefoodexplorer.data.model.FoodDetail
 import com.example.thefoodexplorer.data.model.FoodQuery
 
 object DummyData {
@@ -28,5 +29,11 @@ object DummyData {
             "Kota D",
             "https://asset.kompas.com/crops/UeT3ywkCaq37WhD3HfVSNCR1YBg=/17x10:700x465/750x500/data/photo/2021/02/03/601a709d7cd47.jpg",
         ),
+    )
+
+    fun getDetailFood() = FoodDetail(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae rutrum neque. Proin cursus lorem turpis, lacinia condimentum erat aliquam eu. Cras orci nisi, posuere in pharetra id, semper eu nibh. Aliquam imperdiet, felis sed pretium maximus, elit sapien lobortis magna, sed lobortis nulla mauris ut enim. Maecenas vehicula nisl nec nunc ultricies dignissim. Ut ultricies vel tellus eu elementum. Praesent quis efficitur massa. Integer varius nunc et velit pharetra fermentum. Pellentesque in mi nec eros tempor dapibus ac eget felis. Duis tristique sem non massa aliquam tempus. Integer a urna ex. Suspendisse porttitor, odio sit amet mattis ullamcorper, orci libero egestas nulla, id auctor dolor quam vitae ex. Nunc ut mauris neque.",
+        listOf("Nasi", "Tahu", "Tempe", "Telor"),
+        listOf("Pedas", "Asam", "Manis", "Gurih"),
     )
 }

@@ -71,6 +71,7 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         val liveData = MutableLiveData<ApiResponse<FoodDetail>>()
         liveData.postValue(ApiResponse.loading())
         CoroutineScope(IO).launch {
+            delay(2000L)
             try {
                 helper.getDetailFood(id, object : FoodDetailCallback{
                     override fun onGetData(data: FoodDetail) {
@@ -78,7 +79,8 @@ class FoodRepository private constructor(private val helper: ApiHelper){
                     }
                 })
             }catch (e: Exception){
-                liveData.postValue(ApiResponse.error(e.toString()))
+//                liveData.postValue(ApiResponse.error(e.toString()))
+                liveData.postValue(ApiResponse.success(DummyData.getDetailFood()))
             }
 
         }

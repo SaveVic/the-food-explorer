@@ -2,9 +2,12 @@ package com.example.thefoodexplorer.ui.main.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.thefoodexplorer.R
@@ -12,8 +15,12 @@ import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ActivityFoodDetailBinding
 import com.example.thefoodexplorer.databinding.ActivityHomeBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
+import com.example.thefoodexplorer.ui.main.adapter.FoodIngredientTagsAdapter
+import com.example.thefoodexplorer.ui.main.adapter.FoodQueryListAdapter
+import com.example.thefoodexplorer.ui.main.adapter.FoodTasteTagsAdapter
 import com.example.thefoodexplorer.ui.main.viewmodel.DetailViewModel
 import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
+import com.example.thefoodexplorer.util.ApiResponseType
 
 class FoodDetailActivity : AppCompatActivity() {
     companion object{
@@ -23,6 +30,8 @@ class FoodDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFoodDetailBinding
     private lateinit var viewModel: DetailViewModel
     private var data : FoodQuery? = null
+    private lateinit var adapterIngredient: FoodIngredientTagsAdapter
+    private lateinit var adapterTaste: FoodTasteTagsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,7 @@ class FoodDetailActivity : AppCompatActivity() {
 
         setupViewModel()
         setupUI()
+        setupAdapter()
         setupObserver()
     }
 
@@ -60,19 +70,43 @@ class FoodDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupAdapter(){
+        binding.rvIngredients.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        adapterIngredient = FoodIngredientTagsAdapter(arrayListOf())
+        binding.rvIngredients.adapter = adapterIngredient
+
+        binding.rvTaste.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        adapterTaste = FoodTasteTagsAdapter(arrayListOf())
+        binding.rvTaste.adapter = adapterTaste
+    }
+
     private fun setupObserver() {
         viewModel.getDetailStatus().observe(this, {
             setButtonView(binding.btnDetail, it)
+            if(it){
+                binding.infoDetail.visibility = View.VISIBLE
+            }else binding.infoDetail.visibility = View.GONE
         })
         viewModel.getLocationStatus().observe(this, {
             setButtonView(binding.btnLocation, it)
+        })
+        viewModel.getDetailFood().observe(this, {
+            if(it.type == ApiResponseType.SUCCESS){
+                it.data?.let { detail ->
+                    binding.desc.text = detail.desc
+                    adapterIngredient.replaceList(detail.ingredient)
+                    adapterIngredient.notifyDataSetChanged()
+                    adapterTaste.replaceList(detail.taste)
+                    adapterTaste.notifyDataSetChanged()
+                }
+            }
         })
     }
 
     private fun setButtonView(btn: AppCompatButton, active: Boolean){
         when(active){
             true -> {
-                btn.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.normal_blur))
+                btn.setBackgroundResource(R.drawable.bg_detail_button)
                 btn.setTextColor(ContextCompat.getColor(applicationContext, R.color.dark))
             }
             else -> {
@@ -80,5 +114,6 @@ class FoodDetailActivity : AppCompatActivity() {
                 btn.setTextColor(ContextCompat.getColor(applicationContext, R.color.medium_blur))
             }
         }
+        btn.setPadding(38, 18,38,18)
     }
 }
