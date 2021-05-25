@@ -1,9 +1,8 @@
-package com.example.thefoodexplorer
+package com.example.thefoodexplorer.ui.main.view
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -13,10 +12,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.viewbinding.BuildConfig
 import com.example.thefoodexplorer.databinding.ActivityHomeBinding
-import com.example.thefoodexplorer.fragment.SearchImageFragment
-import com.example.thefoodexplorer.fragment.SearchTextFragment
+import com.example.thefoodexplorer.ui.main.view.fragment.SearchImageFragment
+import com.example.thefoodexplorer.ui.main.view.fragment.SearchTextFragment
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat

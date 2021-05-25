@@ -1,4 +1,4 @@
-package com.example.thefoodexplorer.fragment
+package com.example.thefoodexplorer.ui.main.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
