@@ -64,7 +64,7 @@ interface FoodDetailCallback {
 }
 
 interface FoodLocationCallback {
-    fun onGetData(data: FoodLocation)
+    fun onGetData(data: List<FoodLocation>)
 }
 
 

@@ -71,7 +71,7 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         val liveData = MutableLiveData<ApiResponse<FoodDetail>>()
         liveData.postValue(ApiResponse.loading())
         CoroutineScope(IO).launch {
-            delay(2000L)
+            delay(1000L)
             try {
                 helper.getDetailFood(id, object : FoodDetailCallback{
                     override fun onGetData(data: FoodDetail) {
@@ -87,18 +87,20 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         return liveData
     }
 
-    fun getLocationFood(id: Int) : LiveData<ApiResponse<FoodLocation>>{
-        val liveData = MutableLiveData<ApiResponse<FoodLocation>>()
+    fun getLocationFood(id: Int) : LiveData<ApiResponse<List<FoodLocation>>>{
+        val liveData = MutableLiveData<ApiResponse<List<FoodLocation>>>()
         liveData.postValue(ApiResponse.loading())
         CoroutineScope(IO).launch {
+            delay(1000L)
             try {
                 helper.getLocationFood(id, object : FoodLocationCallback{
-                    override fun onGetData(data: FoodLocation) {
+                    override fun onGetData(data: List<FoodLocation>) {
                         liveData.postValue(ApiResponse.success(data))
                     }
                 })
             }catch (e: Exception){
-                liveData.postValue(ApiResponse.error(e.toString()))
+//                liveData.postValue(ApiResponse.error(e.toString()))
+                liveData.postValue(ApiResponse.success(DummyData.getLocationFood()))
             }
 
         }

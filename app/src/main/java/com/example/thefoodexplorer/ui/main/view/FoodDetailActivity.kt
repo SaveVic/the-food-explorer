@@ -1,26 +1,29 @@
 package com.example.thefoodexplorer.ui.main.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.thefoodexplorer.R
+import com.example.thefoodexplorer.data.model.FoodLocation
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ActivityFoodDetailBinding
-import com.example.thefoodexplorer.databinding.ActivityHomeBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.adapter.FoodIngredientTagsAdapter
-import com.example.thefoodexplorer.ui.main.adapter.FoodQueryListAdapter
+import com.example.thefoodexplorer.ui.main.adapter.FoodLocationGridAdapter
 import com.example.thefoodexplorer.ui.main.adapter.FoodTasteTagsAdapter
 import com.example.thefoodexplorer.ui.main.viewmodel.DetailViewModel
-import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
 import com.example.thefoodexplorer.util.ApiResponseType
+
 
 class FoodDetailActivity : AppCompatActivity() {
     companion object{
@@ -32,6 +35,7 @@ class FoodDetailActivity : AppCompatActivity() {
     private var data : FoodQuery? = null
     private lateinit var adapterIngredient: FoodIngredientTagsAdapter
     private lateinit var adapterTaste: FoodTasteTagsAdapter
+    private lateinit var adapterLocation: FoodLocationGridAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +82,17 @@ class FoodDetailActivity : AppCompatActivity() {
         binding.rvTaste.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         adapterTaste = FoodTasteTagsAdapter(arrayListOf())
         binding.rvTaste.adapter = adapterTaste
+
+        binding.infoLocation.layoutManager = GridLayoutManager(this, 2)
+        adapterLocation = FoodLocationGridAdapter(arrayListOf())
+        binding.infoLocation.adapter = adapterLocation
+        adapterLocation.setOnItemClickCallback(object: FoodLocationGridAdapter.OnItemClickCallback{
+            override fun onItemClicked(location: FoodLocation) {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(location.url)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun setupObserver() {
@@ -98,6 +113,14 @@ class FoodDetailActivity : AppCompatActivity() {
                     adapterIngredient.notifyDataSetChanged()
                     adapterTaste.replaceList(detail.taste)
                     adapterTaste.notifyDataSetChanged()
+                }
+            }
+        })
+        viewModel.getLocationFood().observe(this, {
+            if(it.type == ApiResponseType.SUCCESS){
+                it.data?.let { list ->
+                    adapterLocation.replaceList(list)
+                    adapterLocation.notifyDataSetChanged()
                 }
             }
         })

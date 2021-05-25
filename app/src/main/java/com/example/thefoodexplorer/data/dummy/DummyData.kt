@@ -1,6 +1,7 @@
 package com.example.thefoodexplorer.data.dummy
 
 import com.example.thefoodexplorer.data.model.FoodDetail
+import com.example.thefoodexplorer.data.model.FoodLocation
 import com.example.thefoodexplorer.data.model.FoodQuery
 
 object DummyData {
@@ -33,7 +34,46 @@ object DummyData {
 
     fun getDetailFood() = FoodDetail(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae rutrum neque. Proin cursus lorem turpis, lacinia condimentum erat aliquam eu. Cras orci nisi, posuere in pharetra id, semper eu nibh. Aliquam imperdiet, felis sed pretium maximus, elit sapien lobortis magna, sed lobortis nulla mauris ut enim. Maecenas vehicula nisl nec nunc ultricies dignissim. Ut ultricies vel tellus eu elementum. Praesent quis efficitur massa. Integer varius nunc et velit pharetra fermentum. Pellentesque in mi nec eros tempor dapibus ac eget felis. Duis tristique sem non massa aliquam tempus. Integer a urna ex. Suspendisse porttitor, odio sit amet mattis ullamcorper, orci libero egestas nulla, id auctor dolor quam vitae ex. Nunc ut mauris neque.",
-        listOf("Nasi", "Tahu", "Tempe", "Telor"),
+        listOf("Nasi", "Tahu", "Tempe", "Telor","Nasi", "Tahu", "Tempe", "Telor","Nasi", "Tahu", "Tempe", "Telor"),
         listOf("Pedas", "Asam", "Manis", "Gurih"),
+    )
+
+    fun getLocationFood() = listOf(
+        FoodLocation(
+            "Lokasi 0",
+            "Jalan jalan ke 0",
+            0.0,
+            0.0,
+            "https://www.google.com/maps/place/Ayam+Geprek+Rizky/@-7.1511043,113.4586457,14z/data=!4m9!1m2!2m1!1sayam+geprek!3m5!1s0x2dd77e0093511c63:0x13028f8c2fd30a2f!8m2!3d-7.1511043!4d113.4761552!15sCgtheWFtIGdlcHJla1oaCgtheWFtIGdlcHJlayILYXlhbSBnZXByZWuSARJjaGlja2VuX3Jlc3RhdXJhbnQ",
+        ),
+        FoodLocation(
+            "Lokasi 1",
+            "Jalan jalan ke 1",
+            0.0,
+            0.0,
+            "https://www.google.com/maps/place/Ayam+Geprek+Rizky/@-7.1511043,113.4586457,14z/data=!4m9!1m2!2m1!1sayam+geprek!3m5!1s0x2dd77e0093511c63:0x13028f8c2fd30a2f!8m2!3d-7.1511043!4d113.4761552!15sCgtheWFtIGdlcHJla1oaCgtheWFtIGdlcHJlayILYXlhbSBnZXByZWuSARJjaGlja2VuX3Jlc3RhdXJhbnQ",
+        ),
+        FoodLocation(
+            "Lokasi 2",
+            "Jalan jalan ke 2",
+            0.0,
+            0.0,
+            "https://www.google.com/maps/place/Ayam+Geprek+Rizky/@-7.1511043,113.4586457,14z/data=!4m9!1m2!2m1!1sayam+geprek!3m5!1s0x2dd77e0093511c63:0x13028f8c2fd30a2f!8m2!3d-7.1511043!4d113.4761552!15sCgtheWFtIGdlcHJla1oaCgtheWFtIGdlcHJlayILYXlhbSBnZXByZWuSARJjaGlja2VuX3Jlc3RhdXJhbnQ",
+        ),
+        FoodLocation(
+            "Lokasi 3",
+            "Jalan jalan ke 3",
+            0.0,
+            0.0,
+            "https://www.google.com/maps/place/Ayam+Geprek+Rizky/@-7.1511043,113.4586457,14z/data=!4m9!1m2!2m1!1sayam+geprek!3m5!1s0x2dd77e0093511c63:0x13028f8c2fd30a2f!8m2!3d-7.1511043!4d113.4761552!15sCgtheWFtIGdlcHJla1oaCgtheWFtIGdlcHJlayILYXlhbSBnZXByZWuSARJjaGlja2VuX3Jlc3RhdXJhbnQ",
+        ),
+        FoodLocation(
+            "Lokasi 4",
+            "Jalan jalan ke 4",
+            0.0,
+            0.0,
+            "https://www.google.com/maps/place/Ayam+Geprek+Rizky/@-7.1511043,113.4586457,14z/data=!4m9!1m2!2m1!1sayam+geprek!3m5!1s0x2dd77e0093511c63:0x13028f8c2fd30a2f!8m2!3d-7.1511043!4d113.4761552!15sCgtheWFtIGdlcHJla1oaCgtheWFtIGdlcHJlayILYXlhbSBnZXByZWuSARJjaGlja2VuX3Jlc3RhdXJhbnQ",
+        ),
+
     )
 }

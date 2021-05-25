@@ -165,7 +165,14 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/info_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/item_location"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
