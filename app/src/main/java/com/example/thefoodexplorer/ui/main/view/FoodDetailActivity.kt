@@ -104,6 +104,9 @@ class FoodDetailActivity : AppCompatActivity() {
         })
         viewModel.getLocationStatus().observe(this, {
             setButtonView(binding.btnLocation, it)
+            if(it){
+                binding.infoLocation.visibility = View.VISIBLE
+            }else binding.infoLocation.visibility = View.GONE
         })
         viewModel.getDetailFood().observe(this, {
             if(it.type == ApiResponseType.SUCCESS){
