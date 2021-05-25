@@ -3,13 +3,16 @@ package com.example.thefoodexplorer.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.thefoodexplorer.data.api.*
+import com.example.thefoodexplorer.data.dummy.DummyData
 import com.example.thefoodexplorer.data.model.FoodDetail
 import com.example.thefoodexplorer.data.model.FoodLocation
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.util.ApiResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.lang.Exception
 
@@ -28,6 +31,7 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         val liveData = MutableLiveData<ApiResponse<List<FoodQuery>>>()
         liveData.postValue(ApiResponse.loading())
         CoroutineScope(IO).launch {
+            delay(2000L)
             try {
                 helper.getFoodByQuery(query, object : FoodQueryTextCallback{
                     override fun onGetData(data: List<FoodQuery>) {
@@ -35,7 +39,8 @@ class FoodRepository private constructor(private val helper: ApiHelper){
                     }
                 })
             }catch (e: Exception){
-                liveData.postValue(ApiResponse.error(e.toString()))
+//                liveData.postValue(ApiResponse.error(e.toString()))
+                liveData.postValue(ApiResponse.success(DummyData.getFoods()))
             }
 
         }
@@ -46,6 +51,7 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         val liveData = MutableLiveData<ApiResponse<List<FoodQuery>>>()
         liveData.postValue(ApiResponse.loading())
         CoroutineScope(IO).launch {
+            delay(2000L)
             try {
                 helper.getFoodByImage(image, object : FoodQueryImageCallback{
                     override fun onGetData(data: List<FoodQuery>) {
@@ -53,7 +59,8 @@ class FoodRepository private constructor(private val helper: ApiHelper){
                     }
                 })
             }catch (e: Exception){
-                liveData.postValue(ApiResponse.error(e.toString()))
+//                liveData.postValue(ApiResponse.error(e.toString()))
+                liveData.postValue(ApiResponse.success(DummyData.getFoods()))
             }
 
         }

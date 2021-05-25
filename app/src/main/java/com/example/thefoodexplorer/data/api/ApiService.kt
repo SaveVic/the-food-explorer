@@ -12,17 +12,17 @@ interface ApiService {
 
     //TODO : endpoint
 
-    @GET("")
+    @GET("/food")
     fun getFoodByQuery(@Query("q") query: String): Call<BaseResponse<List<FoodQuery>>>
 
     @Multipart
-    @POST("")
+    @POST("/food")
     fun getFoodByImage(@Part image: MultipartBody.Part): Call<BaseResponse<List<FoodQuery>>>
 
-    @GET("")
+    @GET("/food/{id}/detail")
     fun getDetailFood(@Path("id") id: Int): Call<BaseResponse<FoodDetail>>
 
-    @GET("")
+    @GET("/food/{id}/location")
     fun getLocationFood(@Path("id") id: Int): Call<BaseResponse<FoodLocation>>
 
 }

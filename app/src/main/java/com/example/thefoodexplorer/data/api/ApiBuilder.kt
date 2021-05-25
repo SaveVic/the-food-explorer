@@ -9,8 +9,7 @@ object ApiBuilder {
     private val client = OkHttpClient.Builder().build()
 
     private val retrofit = Retrofit.Builder()
-//        .baseUrl(BuildConfig.BASE_URL)
-        .baseUrl("")
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
