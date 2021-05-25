@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ActivityFoodDetailBinding
@@ -51,6 +52,8 @@ class FoodDetailActivity : AppCompatActivity() {
         data?.let { food ->
             Glide.with(this)
                 .load(food.image)
+                .apply(RequestOptions().override(150, 150))
+                .centerCrop()
                 .into(binding.image)
             binding.name.text = food.name
             binding.city.text = food.city

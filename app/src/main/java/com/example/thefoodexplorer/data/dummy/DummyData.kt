@@ -24,8 +24,8 @@ object DummyData {
         ),
         FoodQuery(
             3,
-            "Food C",
-            "Kota C",
+            "Food D",
+            "Kota D",
             "https://asset.kompas.com/crops/UeT3ywkCaq37WhD3HfVSNCR1YBg=/17x10:700x465/750x500/data/photo/2021/02/03/601a709d7cd47.jpg",
         ),
     )

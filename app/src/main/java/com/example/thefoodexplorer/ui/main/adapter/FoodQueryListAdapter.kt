@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ItemSearchResultBinding
 
@@ -26,6 +27,8 @@ class FoodQueryListAdapter(private val data: ArrayList<FoodQuery>,
             with(binding) {
                 Glide.with(itemView.context)
                     .load(food.image)
+                    .apply(RequestOptions().override(50, 50))
+                    .centerCrop()
                     .into(image)
                 name.text = food.name
                 city.text = food.city
