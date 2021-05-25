@@ -1,8 +1,10 @@
 package com.example.thefoodexplorer.ui.main.view
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -18,6 +20,7 @@ import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchImageFragment
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchTextFragment
 import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
+import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -28,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     lateinit var currentPhotoPath: String
 
-    companion object{
+    companion object {
         const val REQUEST_PERMISSION = 100
         const val REQUEST_IMAGE_CAPTURE = 1
         const val FRAGMENT_TAG_QUERY = "search-text"
@@ -83,11 +86,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun onSearchFoodByText() {
-//        TODO("Not yet implemented")
         val query = (binding.search.text ?: "").toString()
         if (query.isEmpty()) return
         supportFragmentManager.beginTransaction().apply {
-            replace(binding.placeholder.id, SearchTextFragment.newInstance("$query "), FRAGMENT_TAG_QUERY)
+            replace(
+                binding.placeholder.id,
+                SearchTextFragment.newInstance("$query "),
+                FRAGMENT_TAG_QUERY
+            )
             commit()
         }
     }
@@ -102,22 +108,28 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun onCameraTap() {
-//        TODO("Not yet implemented")
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val photoFile: File? = try {
-            createCapturedPhoto()
-        } catch (ex: IOException) {
-            null
-        }
-        photoFile?.also {
-            val photoURI = FileProvider.getUriForFile(
-                this,
-                "${packageName}.fileprovider",
-                it
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-        }
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        val photoFile: File? = try {
+//            createCapturedPhoto()
+//        } catch (ex: IOException) {
+//            null
+//        }
+//        photoFile?.also {
+//            val photoURI = FileProvider.getUriForFile(
+//                this,
+//                "${packageName}.fileprovider",
+//                it
+//            )
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+//        }
+        ImagePicker.with(this)
+            .crop()
+            .compress(1024)
+            .maxResultSize(150, 150)
+            .cropSquare()
+            .cameraOnly()
+            .start()
     }
 
     private fun onFavoriteTap() {
@@ -127,19 +139,40 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_CAPTURE -> {
-                    binding.search.text?.clear()
-                    supportFragmentManager.beginTransaction().apply {
-                        replace(
-                            binding.placeholder.id,
-                            SearchImageFragment.newInstance(currentPhotoPath),
-                            FRAGMENT_TAG_IMAGE
-                        )
-                        commit()
-                    }
+//        if (resultCode == RESULT_OK) {
+//            when (requestCode) {
+//                REQUEST_IMAGE_CAPTURE -> {
+//                    binding.search.text?.clear()
+//                    supportFragmentManager.beginTransaction().apply {
+//                        replace(
+//                            binding.placeholder.id,
+//                            SearchImageFragment.newInstance(currentPhotoPath),
+//                            FRAGMENT_TAG_IMAGE
+//                        )
+//                        commit()
+//                    }
+//                }
+//            }
+//        }
+        when (resultCode) {
+            Activity.RESULT_OK -> {
+                //Image Uri will not be null for RESULT_OK
+                val uri: Uri = data?.data!!
+                binding.search.text?.clear()
+                supportFragmentManager.beginTransaction().apply {
+                    replace(
+                        binding.placeholder.id,
+                        SearchImageFragment.newInstance(uri.path ?: ""),
+                        FRAGMENT_TAG_IMAGE
+                    )
+                    commit()
                 }
+            }
+            ImagePicker.RESULT_ERROR -> {
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
     }
