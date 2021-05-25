@@ -12,20 +12,28 @@ Clone this repository and import into Android Studio
 ## Demo    
 <h3 align="center"> Home Screen </h3>
 <p align="center">
-    <img src="assets/app-search-waiting.png"
-        alt="Search Screen Waiting"    
+    <img src="assets/home-search-image.png"
+        alt="Home Search Image"    
         style="margin-right: 10px;"    
         width="200" />
-    <img src="assets/app-search.png"
-        alt="Search Screen Loaded"    
+    <img src="assets/home-search-text.png"
+        alt="Home Search Text"    
         style="margin-right: 10px;"    
         width="200" />
-    <img src="assets/app-search-error.png"
-        alt="Search Screen Error"    
+</p>
+
+<h3 align="center"> Detail Screen </h3>
+<p align="center">
+    <img src="assets/detail-info-1.png"
+        alt="Detail Screen 1"    
         style="margin-right: 10px;"    
         width="200" />
-    <img src="assets/search.gif?raw=true"
-        alt="Search Screen Action GIF"    
+    <img src="assets/detail-info-2.png"
+        alt="Detail Screen 2"    
+        style="margin-right: 10px;"    
+        width="200" />
+    <img src="assets/detail-location.png"
+        alt="Detail Location"    
         style="margin-right: 10px;"    
         width="200" />
 </p>
