@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.thefoodexplorer.data.repositories.FoodRepository
 import com.example.thefoodexplorer.di.Injection
 import com.example.thefoodexplorer.ui.main.viewmodel.DetailViewModel
-import com.example.thefoodexplorer.ui.main.viewmodel.MainViewModel
+import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
 
 class ViewModelFactory private constructor(private val repository: FoodRepository): ViewModelProvider.NewInstanceFactory() {
 
@@ -22,8 +22,8 @@ class ViewModelFactory private constructor(private val repository: FoodRepositor
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(repository) as T
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(repository) as T
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
