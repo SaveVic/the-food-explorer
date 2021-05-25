@@ -12,9 +12,12 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProvider
 import com.example.thefoodexplorer.databinding.ActivityHomeBinding
+import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchImageFragment
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchTextFragment
+import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -22,11 +25,14 @@ import java.util.*
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var viewModel: HomeViewModel
     lateinit var currentPhotoPath: String
 
     companion object{
         const val REQUEST_PERMISSION = 100
         const val REQUEST_IMAGE_CAPTURE = 1
+        const val FRAGMENT_TAG_QUERY = "search-text"
+        const val FRAGMENT_TAG_IMAGE = "search-image"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +41,14 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupUI()
+        setupViewModel()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(
+            this@HomeActivity,
+            ViewModelFactory.getInstance()
+        )[HomeViewModel::class.java]
     }
 
     override fun onResume() {
@@ -73,8 +87,7 @@ class HomeActivity : AppCompatActivity() {
         val query = (binding.search.text ?: "").toString()
         if (query.isEmpty()) return
         supportFragmentManager.beginTransaction().apply {
-            replace(binding.placeholder.id, SearchTextFragment.newInstance("$query "), "search-text")
-//            addToBackStack(null)
+            replace(binding.placeholder.id, SearchTextFragment.newInstance("$query "), FRAGMENT_TAG_QUERY)
             commit()
         }
     }
@@ -94,7 +107,6 @@ class HomeActivity : AppCompatActivity() {
         val photoFile: File? = try {
             createCapturedPhoto()
         } catch (ex: IOException) {
-            // If there is error while creating the File, it will be null
             null
         }
         photoFile?.also {
@@ -123,9 +135,8 @@ class HomeActivity : AppCompatActivity() {
                         replace(
                             binding.placeholder.id,
                             SearchImageFragment.newInstance(currentPhotoPath),
-                            "search-image"
+                            FRAGMENT_TAG_IMAGE
                         )
-//                        addToBackStack(null)
                         commit()
                     }
                 }
