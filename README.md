@@ -38,24 +38,30 @@ Clone this repository and import into Android Studio
         width="200" />
 </p>
 
-## Feature :
+## App Feature
+- Search food by name or some keyword
+- Search food by image
+- Get food detail/description or trivia
+- Get nearest store location (with google map) which sell the food
+
+## Tech Feature :
 - Using MVVM (Model-View-ViewModel) Architecture
 - Using ViewBinding
-- Using RxJava2 to handle data flow
 - Using Retrofit to request api network
 - Using Glide for load and caching image from url
+- Using Image Picker for capture image from camera
 
 ## Dependencies :
 - [Lifecycle & Livedata](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 - [Retrofit 2](https://square.github.io/retrofit/)
-- [RxJava2](https://github.com/ReactiveX/RxJava)
-- [RxKotlin2](https://github.com/ReactiveX/RxKotlin)
-- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+- [OkHttp 3](https://square.github.io/okhttp/)
 - [Glide](https://github.com/bumptech/glide)
+- [ImagePicker](https://github.com/Dhaval2404/ImagePicker)
 - [AndroidX](https://mvnrepository.com/artifact/androidx)  
 
 ## Author
 [**Waffiq Maaroja**](https://www.linkedin.com/in/waffiq-maaroja) - a0080811@bangkit.academy
+[**Reggya Mayang Ratih**](https://www.linkedin.com/in/reggya-mayang-ratih-b001a8207) - a2682488@bangkit.academy
 
 ## License 
 ```
