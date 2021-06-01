@@ -17,6 +17,7 @@ import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.data.model.FoodLocation
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ActivityFoodDetailBinding
+import com.example.thefoodexplorer.databinding.ContentDetailBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.adapter.FoodIngredientTagsAdapter
 import com.example.thefoodexplorer.ui.main.adapter.FoodLocationGridAdapter
@@ -31,6 +32,7 @@ class FoodDetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityFoodDetailBinding
+    private lateinit var _binding: ContentDetailBinding
     private lateinit var viewModel: DetailViewModel
     private var data : FoodQuery? = null
     private lateinit var adapterIngredient: FoodIngredientTagsAdapter
@@ -40,6 +42,7 @@ class FoodDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFoodDetailBinding.inflate(layoutInflater)
+        _binding = binding.contentDetail
         setContentView(binding.root)
 
         try {
@@ -60,32 +63,32 @@ class FoodDetailActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        binding.back.setOnClickListener { finish() }
-        binding.btnDetail.setOnClickListener{ viewModel.setDetailUI() }
-        binding.btnLocation.setOnClickListener{ viewModel.setLocationUI() }
+        _binding.back.setOnClickListener { finish() }
+        _binding.btnDetail.setOnClickListener{ viewModel.setDetailUI() }
+        _binding.btnLocation.setOnClickListener{ viewModel.setLocationUI() }
         data?.let { food ->
             Glide.with(this)
                 .load(food.image)
                 .apply(RequestOptions().override(150, 150))
                 .centerCrop()
-                .into(binding.image)
-            binding.name.text = food.name
-            binding.city.text = food.city
+                .into(_binding.image)
+            _binding.name.text = food.name
+            _binding.city.text = food.city
         }
     }
 
     private fun setupAdapter(){
-        binding.rvIngredients.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+       _binding.rvIngredients.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         adapterIngredient = FoodIngredientTagsAdapter(arrayListOf())
-        binding.rvIngredients.adapter = adapterIngredient
+        _binding.rvIngredients.adapter = adapterIngredient
 
-        binding.rvTaste.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        _binding.rvTaste.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         adapterTaste = FoodTasteTagsAdapter(arrayListOf())
-        binding.rvTaste.adapter = adapterTaste
+        _binding.rvTaste.adapter = adapterTaste
 
-        binding.infoLocation.layoutManager = GridLayoutManager(this, 2)
+        _binding.infoLocation.layoutManager = GridLayoutManager(this, 2)
         adapterLocation = FoodLocationGridAdapter(arrayListOf())
-        binding.infoLocation.adapter = adapterLocation
+        _binding.infoLocation.adapter = adapterLocation
         adapterLocation.setOnItemClickCallback(object: FoodLocationGridAdapter.OnItemClickCallback{
             override fun onItemClicked(location: FoodLocation) {
                 val intent = Intent(Intent.ACTION_VIEW)
@@ -97,21 +100,21 @@ class FoodDetailActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.getDetailStatus().observe(this, {
-            setButtonView(binding.btnDetail, it)
+            setButtonView(_binding.btnDetail, it)
             if(it){
-                binding.infoDetail.visibility = View.VISIBLE
-            }else binding.infoDetail.visibility = View.GONE
+                _binding.infoDetail.visibility = View.VISIBLE
+            }else _binding.infoDetail.visibility = View.GONE
         })
         viewModel.getLocationStatus().observe(this, {
-            setButtonView(binding.btnLocation, it)
+            setButtonView(_binding.btnLocation, it)
             if(it){
-                binding.infoLocation.visibility = View.VISIBLE
-            }else binding.infoLocation.visibility = View.GONE
+                _binding.infoLocation.visibility = View.VISIBLE
+            }else _binding.infoLocation.visibility = View.GONE
         })
         viewModel.getDetailFood().observe(this, {
             if(it.type == ApiResponseType.SUCCESS){
                 it.data?.let { detail ->
-                    binding.desc.text = detail.desc
+                    _binding.desc.text = detail.desc
                     adapterIngredient.replaceList(detail.ingredient)
                     adapterIngredient.notifyDataSetChanged()
                     adapterTaste.replaceList(detail.taste)

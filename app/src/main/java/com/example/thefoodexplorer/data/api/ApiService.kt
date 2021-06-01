@@ -1,9 +1,9 @@
 package com.example.thefoodexplorer.data.api
 
-import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.data.model.BaseResponse
 import com.example.thefoodexplorer.data.model.FoodDetail
 import com.example.thefoodexplorer.data.model.FoodLocation
+import com.example.thefoodexplorer.data.model.FoodQuery
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -11,6 +11,9 @@ import retrofit2.http.*
 interface ApiService {
 
     //TODO : endpoint
+
+    @GET("/food")
+    fun getAllFood() : Call<BaseResponse<List<FoodQuery>>>
 
     @GET("/food")
     fun getFoodByQuery(@Query("q") query: String): Call<BaseResponse<List<FoodQuery>>>
