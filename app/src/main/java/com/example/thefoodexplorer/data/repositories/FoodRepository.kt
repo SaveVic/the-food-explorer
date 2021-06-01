@@ -12,11 +12,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
-import java.lang.Exception
 
-class FoodRepository private constructor(private val helper: ApiHelper){
+class FoodRepository private constructor(private val helper: ApiHelper,
+//                                         private val localDataSource: LocalDataSource, private val appExecutors: AppExecutors
+                                         ){
+
     companion object {
         @Volatile
         private var instance: FoodRepository? = null
@@ -25,6 +26,29 @@ class FoodRepository private constructor(private val helper: ApiHelper){
             instance ?: synchronized(this) {
                 instance ?: FoodRepository(helper)
             }
+    }
+
+//    fun getAllFood():LiveData<Resource<PagedList<FoodEntity>>>{
+//
+//    }
+
+    fun getAllFood(): LiveData<ApiResponse<List<FoodQuery>>> {
+        val liveData = MutableLiveData<ApiResponse<List<FoodQuery>>>()
+        liveData.postValue(ApiResponse.loading())
+        CoroutineScope(IO).launch {
+            delay(2000L)
+            try {
+                helper.getAllFood(object : FoodQueryTextCallback{
+                    override fun onGetData(data: List<FoodQuery>) {
+                        liveData.postValue(ApiResponse.success(data))
+                    }
+                })
+            }catch (e: Exception){
+                liveData.postValue(ApiResponse.success(DummyData.getFoods()))
+            }
+
+        }
+        return liveData
     }
 
     fun getFoodByQuery(query: String) : LiveData<ApiResponse<List<FoodQuery>>>{
@@ -106,4 +130,5 @@ class FoodRepository private constructor(private val helper: ApiHelper){
         }
         return liveData
     }
+
 }

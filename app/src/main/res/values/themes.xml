@@ -6,12 +6,12 @@
         <item name="android:forceDarkAllowed" tools:targetApi="Q">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/medium</item>
-        <item name="colorPrimaryVariant">@color/dark</item>
+        <item name="colorPrimaryVariant">@color/tosca</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/light</item>
         <item name="colorSecondaryVariant">@color/normal</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/light_grey</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->

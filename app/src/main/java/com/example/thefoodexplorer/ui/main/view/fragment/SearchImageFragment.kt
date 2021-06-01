@@ -1,18 +1,19 @@
 package com.example.thefoodexplorer.ui.main.view.fragment
 
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.data.model.FoodQuery
+import com.example.thefoodexplorer.databinding.ActivityHomeBinding
+import com.example.thefoodexplorer.databinding.ContentHomeBinding
 import com.example.thefoodexplorer.databinding.FragmentSearchImageBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.adapter.FoodQueryListAdapter
@@ -20,7 +21,6 @@ import com.example.thefoodexplorer.ui.main.view.FoodDetailActivity
 import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
 import com.example.thefoodexplorer.util.ApiResponseType
 import java.io.File
-import kotlin.Exception
 
 // the fragment initialization parameters
 private const val ARG_IMAGE = "image-path"

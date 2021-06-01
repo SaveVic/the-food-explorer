@@ -4,11 +4,21 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#FFA8A8A8</color>
     
-    <color name="dark">#FF04009A</color>
+    <color name="dark">#2E78C8</color>
     <color name="medium">#FF77ACF1</color>
     <color name="medium_blur">#8077ACF1</color>
     <color name="normal">#FF3EDBF0</color>
     <color name="normal_blur">#803EDBF0</color>
     <color name="light">#FFC0FEFC</color>
+    
+    <color name="dark_blue">#1E3A68</color>
+    <color name="blue">#4AA4E1</color>
+    <color name="light_blue">#B6E1FE</color>
+
+    <color name="tosca">#4DBAD7</color>
+    <color name="white_transparent">#B7AEEBFF</color>
+    <color name="yellow">#EFB708</color>
+    <color name="light_grey">#EAF3FA</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>

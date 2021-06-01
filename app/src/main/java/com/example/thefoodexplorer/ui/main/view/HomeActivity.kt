@@ -5,18 +5,24 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
+import android.provider.Settings
+import android.view.MenuInflater
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.databinding.ActivityHomeBinding
+import com.example.thefoodexplorer.databinding.ContentHomeBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
+import com.example.thefoodexplorer.ui.main.adapter.FoodListAdapter
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchImageFragment
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchTextFragment
 import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
@@ -26,8 +32,9 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var _binding: ContentHomeBinding
     private lateinit var viewModel: HomeViewModel
     lateinit var currentPhotoPath: String
 
@@ -41,10 +48,27 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
+        _binding = binding.contentHomeFragment
         setContentView(binding.root)
 
         setupUI()
         setupViewModel()
+        showAllFood()
+    }
+
+    private fun showAllFood() {
+        val foodListAdapter = FoodListAdapter()
+        viewModel.getAllFood().observe(this, {food ->
+            if (food != null){
+                foodListAdapter.setFood(food.data)
+                foodListAdapter.notifyDataSetChanged()
+            }
+        })
+        _binding.rvListFood.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            setHasFixedSize(true)
+            adapter = foodListAdapter
+        }
     }
 
     private fun setupViewModel() {
@@ -73,8 +97,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupUI() {
         binding.favorite.setOnClickListener { onFavoriteTap() }
-        binding.camera.setOnClickListener { onCameraTap() }
-        binding.search.setOnEditorActionListener { _, actionId, _ ->
+        binding.options.setOnClickListener(this)
+        _binding.camera.setOnClickListener { onCameraTap() }
+        _binding.search.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     onSearchFoodByText()
@@ -86,11 +111,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun onSearchFoodByText() {
-        val query = (binding.search.text ?: "").toString()
+        val query = (_binding.search.text ?: "").toString()
+        _binding.rvListFood.visibility = View.INVISIBLE
         if (query.isEmpty()) return
         supportFragmentManager.beginTransaction().apply {
             replace(
-                binding.placeholder.id,
+                _binding.placeholder.id,
                 SearchTextFragment.newInstance("$query "),
                 FRAGMENT_TAG_QUERY
             )
@@ -157,11 +183,12 @@ class HomeActivity : AppCompatActivity() {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 //Image Uri will not be null for RESULT_OK
+                _binding.rvListFood.visibility = View.GONE
                 val uri: Uri = data?.data!!
-                binding.search.text?.clear()
+                _binding.search.text?.clear()
                 supportFragmentManager.beginTransaction().apply {
                     replace(
-                        binding.placeholder.id,
+                        _binding.placeholder.id,
                         SearchImageFragment.newInstance(uri.path ?: ""),
                         FRAGMENT_TAG_IMAGE
                     )
@@ -176,4 +203,19 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    override fun onClick(v: View) {
+        val popup = PopupMenu(this, v)
+        val inflater : MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.menu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.options_change_language -> {startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))}
+            }
+            true
+        }
+        popup.show()
+    }
+
 }
