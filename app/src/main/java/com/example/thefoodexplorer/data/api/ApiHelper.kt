@@ -44,7 +44,12 @@ class ApiHelper {
         }
     }
 
-    suspend fun getLocationFood(id: Int, callback: FoodLocationCallback) {
+    suspend fun getLocationFood(
+        id: Int,
+//        lat: Double,
+//        long: Double,
+        callback: FoodLocationCallback,
+    ) {
         ApiBuilder.service.getLocationFood(id).await().data.let {
             callback.onGetData(it)
         }

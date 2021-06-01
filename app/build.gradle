@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", 'BASE_URL', '"http://thefoodexplorer.bangkit"'
+        buildConfigField "String", 'BASE_URL', '"https://thefoodexplorer-7cwab237ga-et.a.run.app/"'
     }
 
     buildTypes {

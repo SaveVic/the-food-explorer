@@ -23,6 +23,10 @@ interface ApiService {
     fun getDetailFood(@Path("id") id: Int): Call<BaseResponse<FoodDetail>>
 
     @GET("/food/{id}/location")
-    fun getLocationFood(@Path("id") id: Int): Call<BaseResponse<List<FoodLocation>>>
+    fun getLocationFood(
+        @Path("id") id: Int,
+//        @Query("latitude") latitude: Double,
+//        @Query("longitude") longitude: Double,
+    ): Call<BaseResponse<List<FoodLocation>>>
 
 }

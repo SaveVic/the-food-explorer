@@ -1,7 +1,7 @@
 # The Food Explorer    
  [![Platform](https://img.shields.io/badge/platform-Android-green.svg)](http://developer.android.com/index.html) [![Kotlin](https://img.shields.io/badge/kotlin-1.5.0-blue.svg)](http://kotlinlang.org) [![Gradle](https://img.shields.io/badge/gradle-4.2.1-%2366DCB8.svg)](https://developer.android.com/studio/releases/gradle-plugin)    
     
-This repository is android implementation of Bangkit Academy Final Project
+This repository is android implementation of Bangkit Academy Final Project (Kramcox Team)
     
 ## Installation 
 Clone this repository and import into Android Studio    
@@ -60,8 +60,8 @@ Clone this repository and import into Android Studio
 - [AndroidX](https://mvnrepository.com/artifact/androidx)  
 
 ## Author
-[**Waffiq Maaroja**](https://www.linkedin.com/in/waffiq-maaroja) - a0080811@bangkit.academy
-[**Reggya Mayang Ratih**](https://www.linkedin.com/in/reggya-mayang-ratih-b001a8207) - a2682488@bangkit.academy
+- [**Waffiq Maaroja**](https://www.linkedin.com/in/waffiq-maaroja) - a0080811@bangkit.academy
+- [**Reggya Mayang Ratih**](https://www.linkedin.com/in/reggya-mayang-ratih-b001a8207) - a2682488@bangkit.academy
 
 ## License 
 ```
