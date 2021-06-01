@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
         android:text="Rasa"
-        android:textColor="#EF0000"
+        android:textColor="@color/dark"
         android:textSize="12sp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

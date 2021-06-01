@@ -6,6 +6,8 @@
     android:background="@drawable/bg_tag_ingredient"
     android:paddingVertical="5dp"
     android:paddingHorizontal="10dp"
+    android:layout_marginHorizontal="25dp"
+    android:layout_marginBottom="15dp"
     android:layout_marginEnd="10dp">
 
     <TextView
@@ -14,7 +16,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
         android:text="Bahan"
-        android:textColor="#A04300"
+        android:textColor="@color/dark_blue"
         android:textSize="12sp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -3,12 +3,8 @@ package com.example.thefoodexplorer.ui.main.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.thefoodexplorer.data.model.FoodLocation
-import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ItemLocationBinding
-import com.example.thefoodexplorer.databinding.ItemSearchResultBinding
 
 class FoodLocationGridAdapter(private val data: ArrayList<FoodLocation>
 ) : RecyclerView.Adapter<FoodLocationGridAdapter.ViewHolder>() {

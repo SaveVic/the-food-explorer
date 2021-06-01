@@ -2,15 +2,15 @@ package com.example.thefoodexplorer.ui.main.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.data.model.FoodQuery
+import com.example.thefoodexplorer.databinding.ContentHomeBinding
 import com.example.thefoodexplorer.databinding.FragmentSearchTextBinding
 import com.example.thefoodexplorer.ui.base.ViewModelFactory
 import com.example.thefoodexplorer.ui.main.adapter.FoodQueryListAdapter

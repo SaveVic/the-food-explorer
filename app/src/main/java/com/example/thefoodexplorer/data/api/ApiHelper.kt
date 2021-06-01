@@ -20,6 +20,12 @@ class ApiHelper {
             }
     }
 
+    suspend fun getAllFood(callback: FoodQueryTextCallback){
+        ApiBuilder.service.getAllFood().await().data.let {
+            callback.onGetData(it)
+        }
+    }
+
     suspend fun getFoodByQuery(query: String, callback: FoodQueryTextCallback) {
         ApiBuilder.service.getFoodByQuery(query).await().data.let {
             callback.onGetData(it)
