@@ -1,13 +1,14 @@
 # The Food Explorer    
  [![Platform](https://img.shields.io/badge/platform-Android-green.svg)](http://developer.android.com/index.html) [![Kotlin](https://img.shields.io/badge/kotlin-1.5.0-blue.svg)](http://kotlinlang.org) [![Gradle](https://img.shields.io/badge/gradle-4.2.1-%2366DCB8.svg)](https://developer.android.com/studio/releases/gradle-plugin)    
     
-This repository is android implementation of Bangkit Academy Final Project (Kramcox Team)
+This repository is android implementation of Bangkit Academy Final Project (Kramcox Team).<br>
+You can try the apps [here](https://drive.google.com/drive/folders/1Kz6W8kv0QnVNjXuK9yOC6QGkMmz9Xlgp?usp=sharing)
     
 ## Installation 
 Clone this repository and import into Android Studio    
 ```
     https://github.com/SaveVic/the-food-explorer.git
-```    
+```   
 
 ## Demo    
 <h3 align="center"> Home Screen </h3>
