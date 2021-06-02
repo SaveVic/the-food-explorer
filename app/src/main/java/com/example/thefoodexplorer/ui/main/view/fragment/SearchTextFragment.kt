@@ -92,7 +92,7 @@ class SearchTextFragment : Fragment() {
     private fun setupUI() {
         emptyMsg = resources.getString(R.string.msg_list_empty)
         errorMsg = resources.getString(R.string.msg_list_error)
-        val temp = "$query "
+        val temp = " $query "
         binding.queryText.text = temp
         binding.rv.layoutManager = GridLayoutManager(activity, 2)
         adapter = FoodQueryListAdapter(arrayListOf())

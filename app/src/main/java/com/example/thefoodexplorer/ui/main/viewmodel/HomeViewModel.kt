@@ -14,8 +14,7 @@ class HomeViewModel (private val repository: FoodRepository): ViewModel(){
         repository.getAllFood()
     }
 
-    val allFoods: LiveData<ApiResponse<List<FoodQuery>>>
-        get() = _allFoods
+    val allFoods get() = _allFoods
     fun getFoodByQuery(query: String) = repository.getFoodByQuery(query)
     fun getFoodByImage(image: File) = repository.getFoodByImage(image)
 

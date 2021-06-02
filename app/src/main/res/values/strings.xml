@@ -5,11 +5,13 @@
     <string name="makanan_tradisional_indonesia">Makanan Tradisional Indonesia</string>
     <string name="detail">Detail</string>
     <string name="ganti_bahasa">Ubah bahasa</string>
-    <string name="cari_makanan_disini">Cari makanan disini...</string>
+    <string name="cari_makanan_disini">Cari makanan disini…</string>
     <string name="lokasi">Lokasi</string>
     <string name="bahan_utama">Bahan Utama</string>
     <string name="cita_rasa">Cita Rasa</string>
     <string name="deskripsi">Deskripsi</string>
     <string name="msg_list_empty">Pencarian tidak ditemukan</string>
     <string name="msg_list_error">Terjadi kesalahan</string>
+    <string name="search_header_query_text">Hasil pencarian </string>
+    <string name="search_header_image_text">Hasil pencarian dengan Gambar</string>
 </resources>
