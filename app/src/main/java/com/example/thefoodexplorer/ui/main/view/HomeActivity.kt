@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -26,17 +26,22 @@ import com.example.thefoodexplorer.ui.main.adapter.FoodListAdapter
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchImageFragment
 import com.example.thefoodexplorer.ui.main.view.fragment.SearchTextFragment
 import com.example.thefoodexplorer.ui.main.viewmodel.HomeViewModel
+import com.example.thefoodexplorer.util.ApiResponseType
 import com.github.dhaval2404.imagepicker.ImagePicker
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
+
+enum class ListStatus{ LOADING, FILLED, EMPTY, ERROR }
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var _binding: ContentHomeBinding
     private lateinit var viewModel: HomeViewModel
-    lateinit var currentPhotoPath: String
+
+    private var initialPage = true
+    private var stateAllFood = ListStatus.LOADING
+
+    private var lastQuery: String? = null
+    private var lastImage: Intent? = null
 
     companion object {
         const val REQUEST_PERMISSION = 100
@@ -53,21 +58,56 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
         setupUI()
         setupViewModel()
-        showAllFood()
+        setupAllFood()
     }
 
-    private fun showAllFood() {
+    private fun setupAllFood() {
         val foodListAdapter = FoodListAdapter()
-        viewModel.getAllFood().observe(this, {food ->
-            if (food != null){
-                foodListAdapter.setFood(food.data)
-                foodListAdapter.notifyDataSetChanged()
-            }
-        })
         _binding.rvListFood.apply {
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
             adapter = foodListAdapter
+        }
+        showHideAllFood(show = true)
+        viewModel.allFoods.observe(this, { response ->
+            val cnt = response.data?.size ?: 0
+            val type = response.type
+            stateAllFood = when{
+                type == ApiResponseType.ERROR -> ListStatus.ERROR
+                type == ApiResponseType.SUCCESS && cnt == 0 -> ListStatus.EMPTY
+                type == ApiResponseType.SUCCESS && cnt > 0 -> ListStatus.FILLED
+                else -> ListStatus.LOADING
+            }
+            foodListAdapter.setFood(response.data)
+            foodListAdapter.notifyDataSetChanged()
+            if(initialPage) showHideAllFood(show = true)
+        })
+    }
+
+    private fun showHideAllFood(show: Boolean = true) {
+        if (show) {
+            when (stateAllFood) {
+                ListStatus.LOADING -> {
+                    _binding.loading.visibility = View.VISIBLE
+                    _binding.empty.root.visibility = View.GONE
+                    _binding.rvListFood.visibility = View.GONE
+                }
+                ListStatus.FILLED -> {
+                    _binding.loading.visibility = View.GONE
+                    _binding.empty.root.visibility = View.GONE
+                    _binding.rvListFood.visibility = View.VISIBLE
+                }
+                else -> {
+                    _binding.loading.visibility = View.GONE
+                    _binding.empty.root.visibility = View.VISIBLE
+                    _binding.rvListFood.visibility = View.GONE
+                }
+            }
+        }
+        else{
+            _binding.loading.visibility = View.GONE
+            _binding.empty.root.visibility = View.GONE
+            _binding.rvListFood.visibility = View.GONE
         }
     }
 
@@ -102,53 +142,55 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         _binding.search.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    onSearchFoodByText()
-                    true
+                    onSearchFoodByText((_binding.search.text ?: "").toString())
+                    false
                 }
                 else -> false
             }
         }
     }
 
-    private fun onSearchFoodByText() {
-        val query = (_binding.search.text ?: "").toString()
-        _binding.rvListFood.visibility = View.INVISIBLE
+    private fun onSearchFoodByText(query: String) {
+//        val query = (_binding.search.text ?: "").toString()
+        showHideAllFood(show = false)
         if (query.isEmpty()) return
+        lastQuery = query
+        lastImage = null
         supportFragmentManager.beginTransaction().apply {
             replace(
                 _binding.placeholder.id,
-                SearchTextFragment.newInstance("$query "),
+                SearchTextFragment.newInstance(query),
                 FRAGMENT_TAG_QUERY
             )
+            if (initialPage) {
+                initialPage = false
+                addToBackStack(null)
+            }
             commit()
         }
     }
 
-    @Throws(IOException::class)
-    private fun createCapturedPhoto(): File {
-        val timestamp: String = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile("PHOTO_${timestamp}", ".jpg", storageDir).apply {
-            currentPhotoPath = absolutePath
+    private fun onSearchFoodByImage(data: Intent?) {
+        val uri: Uri = data?.data!!
+        _binding.search.text?.clear()
+        lastQuery = null
+        lastImage = data
+        showHideAllFood(show = false)
+        supportFragmentManager.beginTransaction().apply {
+            replace(
+                _binding.placeholder.id,
+                SearchImageFragment.newInstance(uri.path ?: ""),
+                FRAGMENT_TAG_IMAGE
+            )
+            if (initialPage) {
+                initialPage = false
+                addToBackStack(null)
+            }
+            commit()
         }
     }
 
     private fun onCameraTap() {
-//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        val photoFile: File? = try {
-//            createCapturedPhoto()
-//        } catch (ex: IOException) {
-//            null
-//        }
-//        photoFile?.also {
-//            val photoURI = FileProvider.getUriForFile(
-//                this,
-//                "${packageName}.fileprovider",
-//                it
-//            )
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-//            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-//        }
         ImagePicker.with(this)
             .crop()
             .compress(1024)
@@ -165,35 +207,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK) {
-//            when (requestCode) {
-//                REQUEST_IMAGE_CAPTURE -> {
-//                    binding.search.text?.clear()
-//                    supportFragmentManager.beginTransaction().apply {
-//                        replace(
-//                            binding.placeholder.id,
-//                            SearchImageFragment.newInstance(currentPhotoPath),
-//                            FRAGMENT_TAG_IMAGE
-//                        )
-//                        commit()
-//                    }
-//                }
-//            }
-//        }
         when (resultCode) {
             Activity.RESULT_OK -> {
                 //Image Uri will not be null for RESULT_OK
-                _binding.rvListFood.visibility = View.GONE
-                val uri: Uri = data?.data!!
-                _binding.search.text?.clear()
-                supportFragmentManager.beginTransaction().apply {
-                    replace(
-                        _binding.placeholder.id,
-                        SearchImageFragment.newInstance(uri.path ?: ""),
-                        FRAGMENT_TAG_IMAGE
-                    )
-                    commit()
-                }
+                onSearchFoodByImage(data)
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -204,18 +221,43 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     override fun onClick(v: View) {
         val popup = PopupMenu(this, v)
-        val inflater : MenuInflater = popup.menuInflater
+        val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.menu, popup.menu)
         popup.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.options_change_language -> {startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))}
+            when (it.itemId) {
+                R.id.options_change_language -> {
+                    startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                }
+                R.id.options_refresh -> {
+                    when{
+                        lastQuery != null -> onSearchFoodByText(lastQuery!!)
+                        lastImage != null -> onSearchFoodByImage(lastImage)
+                        else -> viewModel.refreshAllFoods()
+                    }
+                }
             }
             true
         }
         popup.show()
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        Log.e("Banyak frag", count.toString())
+
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            super.onBackPressed()
+            _binding.placeholder.removeAllViews()
+            initialPage = true
+            lastQuery = null
+            lastImage = null
+            showHideAllFood(show = true)
+            _binding.search.text?.clear()
+        }
     }
 
 }

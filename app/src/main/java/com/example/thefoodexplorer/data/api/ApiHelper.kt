@@ -1,5 +1,6 @@
 package com.example.thefoodexplorer.data.api
 
+import android.util.Log
 import com.example.thefoodexplorer.data.model.FoodDetail
 import com.example.thefoodexplorer.data.model.FoodLocation
 import com.example.thefoodexplorer.data.model.FoodQuery
@@ -20,14 +21,18 @@ class ApiHelper {
             }
     }
 
-    suspend fun getAllFood(callback: FoodQueryTextCallback){
-        ApiBuilder.service.getAllFood().await().data.let {
+    suspend fun getAllFood(callback: FoodQueryTextCallback) {
+        val response = ApiBuilder.service.getAllFood().await()
+        Log.e("MESSAGE", response.msg)
+        response.data.let {
             callback.onGetData(it)
         }
     }
 
     suspend fun getFoodByQuery(query: String, callback: FoodQueryTextCallback) {
-        ApiBuilder.service.getFoodByQuery(query).await().data.let {
+        val response = ApiBuilder.service.getFoodByQuery(query).await()
+        Log.e("MESSAGE", response.msg)
+        response.data.let {
             callback.onGetData(it)
         }
     }
@@ -39,13 +44,17 @@ class ApiHelper {
         )
         val image = MultipartBody.Part
             .createFormData("image", file.name, requestFile)
-        ApiBuilder.service.getFoodByImage(image).await().data.let {
+        val response = ApiBuilder.service.getFoodByImage(image).await()
+        Log.e("MESSAGE", response.msg)
+        response.data.let {
             callback.onGetData(it)
         }
     }
 
     suspend fun getDetailFood(id: Int, callback: FoodDetailCallback) {
-        ApiBuilder.service.getDetailFood(id).await().data.let {
+        val response = ApiBuilder.service.getDetailFood(id).await()
+        Log.e("MESSAGE", response.msg)
+        response.data.let {
             callback.onGetData(it)
         }
     }
@@ -56,7 +65,9 @@ class ApiHelper {
 //        long: Double,
         callback: FoodLocationCallback,
     ) {
-        ApiBuilder.service.getLocationFood(id).await().data.let {
+        val response = ApiBuilder.service.getLocationFood(id).await()
+        Log.e("MESSAGE", response.msg)
+        response.data.let {
             callback.onGetData(it)
         }
     }

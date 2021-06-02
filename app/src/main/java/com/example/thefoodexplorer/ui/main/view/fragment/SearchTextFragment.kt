@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.thefoodexplorer.R
 import com.example.thefoodexplorer.data.model.FoodQuery
 import com.example.thefoodexplorer.databinding.ContentHomeBinding
 import com.example.thefoodexplorer.databinding.FragmentSearchTextBinding
@@ -27,6 +29,8 @@ class SearchTextFragment : Fragment() {
     private var adapter: FoodQueryListAdapter? = null
 
     private val binding get() = _binding!!
+    private var emptyMsg = ""
+    private var errorMsg = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +70,6 @@ class SearchTextFragment : Fragment() {
                 when(result.type){
                     ApiResponseType.SUCCESS -> {
                         renderList(result.data)
-                        binding.loading.visibility = View.GONE
-                        binding.empty.root.visibility = View.GONE
-                        binding.rv.visibility = View.VISIBLE
                     }
                     ApiResponseType.LOADING -> {
                         binding.loading.visibility = View.VISIBLE
@@ -76,6 +77,9 @@ class SearchTextFragment : Fragment() {
                         binding.rv.visibility = View.GONE
                     }
                     else -> {
+                        val err = result.msg ?: ""
+                        val msg = "$errorMsg\n$err"
+                        binding.empty.msg.text = msg
                         binding.loading.visibility = View.GONE
                         binding.empty.root.visibility = View.VISIBLE
                         binding.rv.visibility = View.GONE
@@ -86,8 +90,11 @@ class SearchTextFragment : Fragment() {
     }
 
     private fun setupUI() {
-        binding.queryText.text = query
-        binding.rv.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        emptyMsg = resources.getString(R.string.msg_list_empty)
+        errorMsg = resources.getString(R.string.msg_list_error)
+        val temp = "$query "
+        binding.queryText.text = temp
+        binding.rv.layoutManager = GridLayoutManager(activity, 2)
         adapter = FoodQueryListAdapter(arrayListOf())
         binding.rv.adapter = adapter
         adapter?.setOnItemClickCallback(object : FoodQueryListAdapter.OnItemClickCallback {
@@ -104,8 +111,20 @@ class SearchTextFragment : Fragment() {
     }
 
     private fun renderList(data: List<FoodQuery>?){
+        val len = data?.size ?: 0
         adapter?.replaceList(data ?: listOf())
         adapter?.notifyDataSetChanged()
+        if (len > 0) {
+            binding.loading.visibility = View.GONE
+            binding.empty.root.visibility = View.GONE
+            binding.rv.visibility = View.VISIBLE
+
+        } else {
+            binding.empty.msg.text = emptyMsg
+            binding.loading.visibility = View.GONE
+            binding.empty.root.visibility = View.VISIBLE
+            binding.rv.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {

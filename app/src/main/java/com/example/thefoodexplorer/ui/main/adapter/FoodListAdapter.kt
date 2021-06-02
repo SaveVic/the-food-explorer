@@ -63,6 +63,7 @@ class FoodListAdapter : RecyclerView.Adapter<FoodListAdapter.ViewHolder>(){
         fun bind(food: FoodQuery) {
             binding.apply {
                 name.text = food.name
+                city.text = food.city
                 Glide.with(itemView.context)
                     .load(food.image)
                     .into(image)
