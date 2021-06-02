@@ -24,6 +24,10 @@ Clone this repository and import into Android Studio
         alt="Home Search Text"    
         style="margin-right: 10px;"    
         width="200" />
+    <img src="assets/home-search-empty.png"
+            alt="Home Search Empty"    
+            style="margin-right: 10px;"
+            width="200" />
     <img src="assets/home-search-error.png"
         alt="Home Search Error"    
         style="margin-right: 10px;"
