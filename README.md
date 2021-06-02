@@ -12,23 +12,31 @@ Clone this repository and import into Android Studio
 ## Demo    
 <h3 align="center"> Home Screen </h3>
 <p align="center">
+<img src="assets/splashscreen.png"
+        alt="Splashscreen"    
+        style="margin-right: 10px;"    
+        width="200" />
     <img src="assets/home-search-image.png"
         alt="Home Search Image"    
         style="margin-right: 10px;"    
         width="200" />
-    <img src="assets/home-search-text.png"
+    <img src="assets/home-search-query.png"
         alt="Home Search Text"    
         style="margin-right: 10px;"    
+        width="200" />
+    <img src="assets/home-search-error.png"
+        alt="Home Search Error"    
+        style="margin-right: 10px;"
         width="200" />
 </p>
 
 <h3 align="center"> Detail Screen </h3>
 <p align="center">
-    <img src="assets/detail-info-1.png"
+    <img src="assets/detail-main.png"
         alt="Detail Screen 1"    
         style="margin-right: 10px;"    
         width="200" />
-    <img src="assets/detail-info-2.png"
+    <img src="assets/detail-detail.png"
         alt="Detail Screen 2"    
         style="margin-right: 10px;"    
         width="200" />
@@ -50,14 +58,16 @@ Clone this repository and import into Android Studio
 - Using Retrofit to request api network
 - Using Glide for load and caching image from url
 - Using Image Picker for capture image from camera
+- Using Shimmer animation for waiting indicator
 
 ## Dependencies :
 - [Lifecycle & Livedata](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 - [Retrofit 2](https://square.github.io/retrofit/)
 - [OkHttp 3](https://square.github.io/okhttp/)
 - [Glide](https://github.com/bumptech/glide)
-- [ImagePicker](https://github.com/Dhaval2404/ImagePicker)
+- [Image Picker](https://github.com/Dhaval2404/ImagePicker)
 - [AndroidX](https://mvnrepository.com/artifact/androidx)  
+- [Shimmer Android](http://facebook.github.io/shimmer-android/)
 
 ## Author
 - [**Waffiq Maaroja**](https://www.linkedin.com/in/waffiq-maaroja) - a0080811@bangkit.academy
